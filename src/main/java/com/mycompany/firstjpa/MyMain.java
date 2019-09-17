@@ -20,11 +20,22 @@ public class MyMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        //We create the Entity Manager as stated to : transaction-type="RESOURCE_LOCAL"(persistence.xml)
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("_firstJpa");
         EntityManager em = emf.createEntityManager();
+        //Use the entityManager to find class and print it.
         Course c = em.find(Course.class, 1);  
-        System.out.println("************************");
-        System.out.println("ID: "+c.getId()+", Course Title: "+c.getTitle());
+        System.out.println("-------------------------");
+        System.out.println("ID: "+c.getId()+", Course Title: "+c.getTitle());  
+        //persist() is like INSERT.
+        c.setTitle("Python");
+        em.getTransaction().begin();
+        em.persist(c);
+        // transaction begins and must always "close".
+        em.getTransaction().commit();
+        
+        
     }
 
 }
